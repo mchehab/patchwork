@@ -119,6 +119,10 @@ class CheckListCreate(CheckMixin, ListCreateAPIView):
             patch._edited_by = user
             return True
 
+        if user.has_perm('patchwork.add_check', patch.project):
+            patch._edited_by = user
+            return True
+
         # Being maintainer doesn't grant rights to create checks.
         return False
 
