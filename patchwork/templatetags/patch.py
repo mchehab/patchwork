@@ -45,10 +45,15 @@ def patch_checks(patch):
             all_empty = False
             break
 
+    has_highlight = False
     for state in required[::-1]:
         if counts[state]:
             color = dict(Check.STATE_CHOICES).get(state)
             count = str(counts[state])
+
+            if not has_highlight:
+                color += " highest"
+                has_highlight = True
         else:
             if all_empty:
                 color = 'nochecks'
