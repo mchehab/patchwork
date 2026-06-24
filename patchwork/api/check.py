@@ -123,7 +123,12 @@ class CheckListCreate(CheckMixin, ListCreateAPIView):
             patch._edited_by = user
             return True
 
-        # Being maintainer doesn't grant rights to create checks.
+        # user is project maintainer also grants checs right.
+        # TODO: being a maintainer should be orthogonal of
+        # being a CI that update checks
+        if self.cover.project.is_editable(user):
+            return True
+
         return False
 
     def create(self, request, patch_id, *args, **kwargs):
